@@ -43,7 +43,7 @@ Available options:
                     downloaded and saved in ${script_dir}. The Ubuntu signing key will be downloaded and
                     saved in a new keyring in ${script_dir}
 -s, --source        Source ISO file. By default the latest daily ISO for Ubuntu 20.04 will be downloaded
-                    and saved as ${script_dir}/ubuntu-original-$today.iso
+                    and saved as ${script_dir}/ubuntu-original-<release name>-$today.iso
                     That file will be used by default if it already exists.
 -d, --destination   Destination ISO file. By default ${script_dir}/ubuntu-preseed-$today.iso will be
                     created, overwriting any existing file.
@@ -54,7 +54,7 @@ EOF
 function parse_params() {
         # default values of variables set from params
         preseed_file=""
-        source_iso="${script_dir}/ubuntu-original-$today.iso"
+        source_iso="${script_dir}/ubuntu-original-${ubuntu_rel_name}-$today.iso"
         destination_iso="${script_dir}/ubuntu-preseed-$today.iso"
         gpg_verify=1
 
@@ -87,7 +87,7 @@ function parse_params() {
         [[ -z "${preseed_file}" ]] && die "preseed file was not specified."
         [[ ! -f "$preseed_file" ]] && die "preseed file could not be found."
 
-        if [ "${source_iso}" != "${script_dir}/ubuntu-original-$today.iso" ]; then
+        if [ "${source_iso}" != "${script_dir}/ubuntu-original-${ubuntu_rel_name}-$today.iso" ]; then
                 [[ ! -f "${source_iso}" ]] && die "Source ISO file could not be found."
         fi
 
@@ -133,7 +133,7 @@ if [ ! -f "${source_iso}" ]; then
 else
         log "Using existing ${source_iso} file."
         if [ ${gpg_verify} -eq 1 ]; then
-                if [ "${source_iso}" != "${script_dir}/ubuntu-original-$today.iso" ]; then
+                if [ "${source_iso}" != "${script_dir}/ubuntu-original-${ubuntu_rel_name}-$today.iso" ]; then
                         log "Automatic GPG verification is enabled. If the source ISO file is not the latest daily image, verification will fail!"
                 fi
         fi
