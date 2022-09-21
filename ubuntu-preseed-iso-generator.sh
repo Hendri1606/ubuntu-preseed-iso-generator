@@ -1,11 +1,12 @@
 #!/bin/bash
+
 set -Eeuo pipefail
 
 function cleanup() {
         trap - SIGINT SIGTERM ERR EXIT
         if [ -n "${tmpdir+x}" ]; then
-                rm -rf "$tmpdir"
-                log "🚽 Deleted temporary working directory $tmpdir"
+                rm -rf -- "$tmpdir"
+                log "Deleted temporary working directory $tmpdir"
         fi
 }
 
@@ -156,7 +157,7 @@ if [ ${gpg_verify} -eq 1 ]; then
         log "Verifying ${source_iso} integrity and authenticity..."
         gpg -q --keyring "${script_dir}/${ubuntu_gpg_key_id}.keyring" --verify "${script_dir}/SHA256SUMS-${today}.gpg" "${script_dir}/SHA256SUMS-${today}" 2>/dev/null
         if [ $? -ne 0 ]; then
-                rm -f "${script_dir}/${ubuntu_gpg_key_id}.keyring~"
+                rm -fv "${script_dir}/${ubuntu_gpg_key_id}.keyring~"
                 die "Verification of SHA256SUMS signature failed."
         fi
 
@@ -177,7 +178,7 @@ fi
 log "Extracting ISO image..."
 xorriso -osirrox on -indev "${source_iso}" -extract / "$tmpdir" &>/dev/null
 chmod -R u+w "$tmpdir"
-rm -rf "$tmpdir/"'[BOOT]'
+rm -rf -- "$tmpdir/"'[BOOT]'
 log "Extracted to $tmpdir"
 
 log "Adding preseed parameters to kernel command line..."
@@ -198,7 +199,7 @@ EOF
 log "Added parameters to UEFI and BIOS kernel command lines."
 
 log "Adding preseed configuration file..."
-cp "$preseed_file" "$tmpdir/preseed/custom.seed"
+cp -v "$preseed_file" "$tmpdir/preseed/custom.seed"
 log "Added preseed file"
 
 log "Updating $tmpdir/md5sum.txt with hashes of modified files..."
