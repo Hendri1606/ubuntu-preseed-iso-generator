@@ -1,4 +1,5 @@
 # Ubuntu Preseed ISO Generator
+
 Generate an ISO image for automated Ubuntu 20.04 desktop installations. This script uses the traditional preseed method.
 
 ## [Looking for the server version?](https://github.com/covertsh/ubuntu-autoinstall-generator)
@@ -14,16 +15,24 @@ This script can use an existing ISO image or download the latest daily 64-bit im
 By default, the source ISO image is checked for integrity and authenticity using GPG. This can be disabled with ```-k```.
 
 ### Requirements
-Tested on a host running Ubuntu 20.04.1.
+
+Tested on a host running Ubuntu 18.04 and 20.04 LTS.
+
 - Utilities required:
     - ```p7zip-full```
     - ```mkisofs``` or ```genisoimage```
+    - ```isolinux```
+
+```shell
+sudo apt-get install -y p7zip-full mkisofs genisoimage xorriso isolinux syslinux-common
+```
 
 ### Usage
+
 ```
 Usage: ubuntu-preseed-iso-generator.sh [-h] [-k] [-v] [-p preseed-configuration-file] [-s source-iso-file] [-d destination-iso-file]
 
-💁 This script will create fully-automated Ubuntu 20.04 Focal Fossa installation media.
+This script will create fully-automated Ubuntu 20.04 Focal Fossa installation media.
 
 Available options:
 
@@ -45,36 +54,39 @@ Available options:
 ### Example
 ```
 user@testbox:~$ bash ubuntu-preseed-iso-generator.sh -p example.seed -d ubuntu-preseed-example.iso
-[2021-03-13 10:05:10] 👶 Starting up...
-[2021-03-13 10:05:10] 📁 Created temporary working directory /tmp/tmp.rrehvj78Bk
-[2021-03-13 10:05:10] 🔎 Checking for required utilities...
-[2021-03-13 10:05:10] 👍 All required utilities are installed.
-[2020-12-23 14:06:07] 🌎 Downloading current daily ISO image for Ubuntu 20.04 Focal Fossa...
-[2020-12-23 14:08:01] 👍 Downloaded and saved to /home/user/ubuntu-original-2021-03-13.iso
-[2020-12-23 14:08:01] 🌎 Downloading SHA256SUMS & SHA256SUMS.gpg files...
-[2020-12-23 14:08:02] 🌎 Downloading and saving Ubuntu signing key...
-[2020-12-23 14:08:02] 👍 Downloaded and saved to /home/user/843938DF228D22F7B3742BC0D94AA3F0EFE21092.keyring
-[2020-12-23 14:08:02] 🔐 Verifying /home/user/ubuntu-original-2021-03-13.iso integrity and authenticity...
-[2020-12-23 14:08:09] 👍 Verification succeeded.
-[2020-12-23 14:08:09] 🔧 Extracting ISO image...
-[2021-03-13 10:05:23] 👍 Extracted to /tmp/tmp.rrehvj78Bk
-[2021-03-13 10:05:23] 🧩 Adding preseed parameters to kernel command line...
-[2021-03-13 10:05:23] 👍 Added parameters to UEFI and BIOS kernel command lines.
-[2021-03-13 10:05:23] 🧩 Adding preseed configuration file...
-[2021-03-13 10:05:23] 👍 Added preseed file
-[2021-03-13 10:05:23] 👷 Updating /tmp/tmp.rrehvj78Bk/md5sum.txt with hashes of modified files...
-[2021-03-13 10:05:23] 👍 Updated hashes.
-[2021-03-13 10:05:23] 📦 Repackaging extracted files into an ISO image...
-[2021-03-13 10:05:35] 👍 Repackaged into /home/user/ubuntu-preseed-example.iso
-[2021-03-13 10:05:35] ✅ Completed.
-[2021-03-13 10:05:35] 🚽 Deleted temporary working directory /tmp/tmp.rrehvj78Bk
+[2021-03-13 10:05:10] Starting up...
+[2021-03-13 10:05:10] Created temporary working directory /tmp/tmp.rrehvj78Bk
+[2021-03-13 10:05:10] Checking for required utilities...
+[2021-03-13 10:05:10] All required utilities are installed.
+[2020-12-23 14:06:07] Downloading current daily ISO image for Ubuntu 20.04 Focal Fossa...
+[2020-12-23 14:08:01] Downloaded and saved to /home/user/ubuntu-original-2021-03-13.iso
+[2020-12-23 14:08:01] Downloading SHA256SUMS & SHA256SUMS.gpg files...
+[2020-12-23 14:08:02] Downloading and saving Ubuntu signing key...
+[2020-12-23 14:08:02] Downloaded and saved to /home/user/843938DF228D22F7B3742BC0D94AA3F0EFE21092.keyring
+[2020-12-23 14:08:02] Verifying /home/user/ubuntu-original-2021-03-13.iso integrity and authenticity...
+[2020-12-23 14:08:09] Verification succeeded.
+[2020-12-23 14:08:09] Extracting ISO image...
+[2021-03-13 10:05:23] Extracted to /tmp/tmp.rrehvj78Bk
+[2021-03-13 10:05:23] Adding preseed parameters to kernel command line...
+[2021-03-13 10:05:23] Added parameters to UEFI and BIOS kernel command lines.
+[2021-03-13 10:05:23] Adding preseed configuration file...
+[2021-03-13 10:05:23] Added preseed file
+[2021-03-13 10:05:23] Updating /tmp/tmp.rrehvj78Bk/md5sum.txt with hashes of modified files...
+[2021-03-13 10:05:23] Updated hashes.
+[2021-03-13 10:05:23] Repackaging extracted files into an ISO image...
+[2021-03-13 10:05:35] Repackaged into /home/user/ubuntu-preseed-example.iso
+[2021-03-13 10:05:35] Completed.
+[2021-03-13 10:05:35] Deleted temporary working directory /tmp/tmp.rrehvj78Bk
 ```
 
 Now you can boot your target machine using ```ubuntu-preseed-example.iso``` and it will automatically install Ubuntu using the configuration from ```example.seed```.
 
 ### Thanks
+
 This script is based on [this](https://betterdev.blog/minimal-safe-bash-script-template/) minimal safe bash template, and steps found in [this](https://askubuntu.com/questions/806820/how-do-i-create-a-completely-unattended-install-of-ubuntu-desktop-16-04-1-lts) Ask Ubuntu answer.
 
+Fork from: https://github.com/covertsh/ubuntu-preseed-iso-generator
 
 ### License
+
 MIT license.
