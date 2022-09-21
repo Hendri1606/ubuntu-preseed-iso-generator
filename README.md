@@ -2,8 +2,6 @@
 
 Generate an ISO image for automated Ubuntu 20.04 desktop installations. This script uses the traditional preseed method.
 
-## [Looking for the server version?](https://github.com/covertsh/ubuntu-autoinstall-generator)
-
 ### Behavior
 
 Check out the usage information below for arguments. The basic idea is to take an unmodified Ubuntu ISO image, extract it, add some kernel command line parameters and a preseed file, then repack the data into a new ISO. Creating the preseed file itself is outside the scope of this tool.
