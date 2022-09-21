@@ -140,13 +140,13 @@ else
 fi
 
 if [ ${gpg_verify} -eq 1 ]; then
-        if [ ! -f "${script_dir}/SHA256SUMS-${today}" ]; then
+        if [ ! -f "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}" ]; then
                 log "Downloading SHA256SUMS file..."
-                curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS" -o "${script_dir}/SHA256SUMS-${today}"
+                curl -NsSL "${ubuntu_url_mirror}/${ubuntu_rel_name}-SHA256SUMS" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}"
                 log "Downloading SHA256SUMS.gpg file..."
-                curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS.gpg" -o "${script_dir}/SHA256SUMS-${today}.gpg"
+                curl -NsSL "${ubuntu_url_mirror}/${ubuntu_rel_name}-SHA256SUMS.gpg" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}.gpg"
         else
-                log "Using existing SHA256SUMS-${today} & SHA256SUMS-${today}.gpg files."
+                log "Using existing ${ubuntu_rel_name}-SHA256SUMS-${today} & ${ubuntu_rel_name}-SHA256SUMS-${today}.gpg files."
         fi
 
         if [ ! -f "${script_dir}/${ubuntu_gpg_key_id}.keyring" ]; then
@@ -158,7 +158,7 @@ if [ ${gpg_verify} -eq 1 ]; then
         fi
 
         log "Verifying ${source_iso} integrity and authenticity..."
-        gpg -q --keyring "${script_dir}/${ubuntu_gpg_key_id}.keyring" --verify "${script_dir}/SHA256SUMS-${today}.gpg" "${script_dir}/SHA256SUMS-${today}" 2>/dev/null
+        gpg -q --keyring "${script_dir}/${ubuntu_gpg_key_id}.keyring" --verify "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}.gpg" "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}" 2>/dev/null
         if [ $? -ne 0 ]; then
                 rm -fv "${script_dir}/${ubuntu_gpg_key_id}.keyring~"
                 die "Verification of SHA256SUMS signature failed."
@@ -167,7 +167,7 @@ if [ ${gpg_verify} -eq 1 ]; then
         rm -f "${script_dir}/${ubuntu_gpg_key_id}.keyring~"
         digest=$(sha256sum "${source_iso}" | cut -f1 -d ' ')
         set +e
-        grep -Fq "$digest" "${script_dir}/SHA256SUMS-${today}"
+        grep -Fq "$digest" "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}"
         if [ $? -eq 0 ]; then
                 log "Verification succeeded."
                 set -e
@@ -182,7 +182,10 @@ log "Extracting ISO image..."
 xorriso -osirrox on -indev "${source_iso}" -extract / "$tmpdir" &>/dev/null
 chmod -R u+w "$tmpdir"
 rm -rf -- "$tmpdir/"'[BOOT]'
-log "Extracted to $tmpdir"
+log "Extracted to $tmpdir showing files below"
+echo "----------------"
+ls -lah -- $tmpdir
+echo "----------------"
 
 log "Adding preseed parameters to kernel command line..."
 
