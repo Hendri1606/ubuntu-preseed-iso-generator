@@ -30,7 +30,7 @@ usage() {
         cat <<EOF
 Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-k] [-v] [-p preseed-configuration-file] [-s source-iso-file] [-d destination-iso-file]
 
-This script will create fully-automated Ubuntu 20.04 Focal Fossa installation media.
+This script will create fully-automated Ubuntu Desktop installation media.
 
 Available options:
 
@@ -99,8 +99,10 @@ function parse_params() {
 
 
 ubuntu_gpg_key_id="843938DF228D22F7B3742BC0D94AA3F0EFE21092"
-ubuntu_iso_name="focal-desktop-amd64.iso"
-ubuntu_url_mirror="https://cdimage.ubuntu.com/focal/daily-live/current"
+ubuntu_rel_name="focal"
+#ubuntu_rel_name="jammy"
+ubuntu_iso_name="${ubuntu_rel_name}-desktop-amd64.iso"
+ubuntu_url_mirror="https://cdimage.ubuntu.com/${ubuntu_rel_name}/daily-live/current"
 ubuntu_key_server="hkp://keyserver.ubuntu.com:80"
 
 parse_params "$@"
@@ -124,7 +126,8 @@ log "All required utilities are installed."
 
 
 if [ ! -f "${source_iso}" ]; then
-        log "Downloading current daily ISO image ${ubuntu_iso_name} ..."
+        log "Downloading current daily ISO image ${ubuntu_iso_name}"
+        log "Download mirror: ${ubuntu_url_mirror}"
         curl -NsSL "${ubuntu_url_mirror}/${ubuntu_iso_name}" -o "${source_iso}"
         log "Downloaded and saved to ${source_iso}"
 else
