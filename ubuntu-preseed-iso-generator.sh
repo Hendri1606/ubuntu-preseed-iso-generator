@@ -96,13 +96,16 @@ function parse_params() {
         return 0
 }
 
+
 ubuntu_gpg_key_id="843938DF228D22F7B3742BC0D94AA3F0EFE21092"
+ubuntu_iso_name="focal-desktop-amd64.iso"
 ubuntu_url_mirror="https://cdimage.ubuntu.com/focal/daily-live/current"
 ubuntu_key_server="hkp://keyserver.ubuntu.com:80"
 
 parse_params "$@"
 
 tmpdir=$(mktemp -d)
+
 
 if [[ ! "$tmpdir" || ! -d "$tmpdir" ]]; then
         die "Could not create temporary working directory."
@@ -118,9 +121,10 @@ log "Checking for required utilities..."
 [[ ! -f "/usr/lib/ISOLINUX/isohdpfx.bin" ]] && die "isolinux is not installed."
 log "All required utilities are installed."
 
+
 if [ ! -f "${source_iso}" ]; then
-        log "Downloading current daily ISO image for Ubuntu 20.04 Focal Fossa..."
-        curl -NsSL "${ubuntu_url_mirror}/focal-desktop-amd64.iso" -o "${source_iso}"
+        log "Downloading current daily ISO image ${ubuntu_iso_name} ..."
+        curl -NsSL "${ubuntu_url_mirror}/${ubuntu_iso_name}" -o "${source_iso}"
         log "Downloaded and saved to ${source_iso}"
 else
         log "Using existing ${source_iso} file."
@@ -133,8 +137,9 @@ fi
 
 if [ ${gpg_verify} -eq 1 ]; then
         if [ ! -f "${script_dir}/SHA256SUMS-${today}" ]; then
-                log "Downloading SHA256SUMS & SHA256SUMS.gpg files..."
+                log "Downloading SHA256SUMS file..."
                 curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS" -o "${script_dir}/SHA256SUMS-${today}"
+                log "Downloading SHA256SUMS.gpg file..."
                 curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS.gpg" -o "${script_dir}/SHA256SUMS-${today}.gpg"
         else
                 log "Using existing SHA256SUMS-${today} & SHA256SUMS-${today}.gpg files."
@@ -168,6 +173,7 @@ if [ ${gpg_verify} -eq 1 ]; then
 else
         log "Skipping verification of source ISO."
 fi
+
 log "Extracting ISO image..."
 xorriso -osirrox on -indev "${source_iso}" -extract / "$tmpdir" &>/dev/null
 chmod -R u+w "$tmpdir"
@@ -206,10 +212,13 @@ log "Updated hashes."
 
 log "Repackaging extracted files into an ISO image..."
 cd "$tmpdir"
-pwd
-xorriso -as mkisofs -r -V "ubuntu-preseed-$today" -J -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -boot-info-table -input-charset utf-8 -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -o "${destination_iso}" . &>/dev/null
+log "Changed to $tmpdir"
+xorriso -as mkisofs -r -V "ubuntu-preseed-$today" -J -b isolinux/isolinux.bin -c isolinux/boot.cat \
+        -no-emul-boot -boot-load-size 4 -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -boot-info-table \
+        -input-charset utf-8 -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat \
+        -o "${destination_iso}" . &>/dev/null
 cd "$OLDPWD"
-pwd
+log "Changed to $OLDPWD"
 log "Repackaged into ${destination_iso}"
 
 die "Completed." 0
