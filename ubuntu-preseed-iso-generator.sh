@@ -97,10 +97,12 @@ function parse_params() {
         return 0
 }
 
+# 20.04
+ubuntu_rel_name="focal"
+# 22.04
+#ubuntu_rel_name="jammy"
 
 ubuntu_gpg_key_id="843938DF228D22F7B3742BC0D94AA3F0EFE21092"
-ubuntu_rel_name="focal"
-#ubuntu_rel_name="jammy"
 ubuntu_iso_name="${ubuntu_rel_name}-desktop-amd64.iso"
 ubuntu_url_mirror="https://cdimage.ubuntu.com/${ubuntu_rel_name}/daily-live/current"
 ubuntu_key_server="hkp://keyserver.ubuntu.com:80"
@@ -142,9 +144,9 @@ fi
 if [ ${gpg_verify} -eq 1 ]; then
         if [ ! -f "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}" ]; then
                 log "Downloading SHA256SUMS file..."
-                curl -NsSL "${ubuntu_url_mirror}/${ubuntu_rel_name}-SHA256SUMS" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}"
+                curl -NsSL "${ubuntu_url_mirror}/$SHA256SUMS" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}"
                 log "Downloading SHA256SUMS.gpg file..."
-                curl -NsSL "${ubuntu_url_mirror}/${ubuntu_rel_name}-SHA256SUMS.gpg" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}.gpg"
+                curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS.gpg" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}.gpg"
         else
                 log "Using existing ${ubuntu_rel_name}-SHA256SUMS-${today} & ${ubuntu_rel_name}-SHA256SUMS-${today}.gpg files."
         fi
