@@ -1,6 +1,6 @@
 # Ubuntu Preseed ISO Generator
 
-Generate an ISO image for automated Ubuntu 20.04 desktop installations. This script uses the traditional preseed method.
+Generate an ISO image for automated Ubuntu 20.04/Focal or 22.04/Jammy desktop installations. This script uses the traditional preseed method.
 
 ### Behavior
 
@@ -30,7 +30,7 @@ sudo apt-get install -y p7zip-full mkisofs genisoimage xorriso isolinux syslinux
 ```
 Usage: ubuntu-preseed-iso-generator.sh [-h] [-k] [-v] [-p preseed-configuration-file] [-s source-iso-file] [-d destination-iso-file]
 
-This script will create fully-automated Ubuntu 20.04 Focal Fossa installation media.
+This script will create fully-automated Ubuntu Desktop installation media.
 
 Available options:
 
@@ -50,6 +50,7 @@ Available options:
 ```
 
 ### Example
+
 ```
 user@testbox:~$ bash ubuntu-preseed-iso-generator.sh -p example.seed -d ubuntu-preseed-example.iso
 [2021-03-13 10:05:10] Starting up...
