@@ -1,4 +1,5 @@
-# Based on https://askubuntu.com/questions/806820/how-do-i-create-a-completely-unattended-install-of-ubuntu-desktop-16-04-1-lts
+# Ubuntu seed install data
+# https://wiki.ubuntu.com/UbiquityAutomation
 
 # Partitioning
 ubiquity partman-auto/disk string /dev/sda
@@ -15,7 +16,7 @@ d-i partman/confirm_nooverwrite boolean true
 
 # Locale
 d-i keyboard-configuration/layoutcode select us
-d-i debian-installer/locale string en_US
+d-i debian-installer/locale string en_AU
 d-i console-setup/ask_detect boolean false
 d-i console-setup/layoutcode string us
 
@@ -31,7 +32,7 @@ d-i time/zone string UTC
 d-i clock-setup/ntp boolean true
 
 # Packages, Mirrors, Image
-d-i mirror/country string US
+d-i mirror/country string AU
 d-i apt-setup/multiverse boolean true
 d-i apt-setup/restricted boolean true
 d-i apt-setup/universe boolean true
@@ -55,7 +56,7 @@ d-i finish-install/reboot_in_progress note
 ubiquity ubiquity/success_command string \
   in-target apt update;\
   in-target apt remove -y gnome-initial-setup;\
-  in-target apt install -y open-vm-tools
+  in-target apt install -y open-vm-tools vim tmux git curl wget htop build-essential tasksel python3-dev python3-venv python3-pip software-properties-common
 
 # Poweroff after install
 ubiquity ubiquity/poweroff boolean true
