@@ -144,7 +144,7 @@ fi
 if [ ${gpg_verify} -eq 1 ]; then
         if [ ! -f "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}" ]; then
                 log "Downloading SHA256SUMS file..."
-                curl -NsSL "${ubuntu_url_mirror}/$SHA256SUMS" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}"
+                curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}"
                 log "Downloading SHA256SUMS.gpg file..."
                 curl -NsSL "${ubuntu_url_mirror}/SHA256SUMS.gpg" -o "${script_dir}/${ubuntu_rel_name}-SHA256SUMS-${today}.gpg"
         else
@@ -225,7 +225,7 @@ log "Changed to $tmpdir"
 xorriso -as mkisofs -r -V "ubuntu-preseed-$today" -J -b isolinux/isolinux.bin -c isolinux/boot.cat \
         -no-emul-boot -boot-load-size 4 -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -boot-info-table \
         -input-charset utf-8 -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat \
-        -o "${destination_iso}" . &>/dev/null
+        -o "${destination_iso}" .
 cd "$OLDPWD"
 log "Changed to $OLDPWD"
 log "Repackaged into ${destination_iso}"
