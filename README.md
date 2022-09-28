@@ -2,8 +2,6 @@
 
 Generate an ISO image for automated Ubuntu 20.04/Focal or 22.04/Jammy desktop installations. This script uses the traditional preseed method.
 
-Works from WSL.
-
 ### Behavior
 
 Check out the usage information below for arguments. The basic idea is to take an unmodified Ubuntu ISO image, extract it, add some kernel command line parameters and a preseed file, then repack the data into a new ISO. Creating the preseed file itself is outside the scope of this tool.
@@ -16,7 +14,7 @@ By default, the source ISO image is checked for integrity and authenticity using
 
 ### Requirements
 
-Tested on a host running Ubuntu 18.04 and 20.04 LTS.
+Tested on a host running Ubuntu 18.04 and 20.04 LTS. Works from within WSL on Windows.
 
 - Utilities required:
     - ```p7zip-full```
