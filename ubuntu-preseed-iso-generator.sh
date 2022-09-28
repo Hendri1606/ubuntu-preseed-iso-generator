@@ -97,8 +97,10 @@ function parse_params() {
         return 0
 }
 
+
 # 20.04
 ubuntu_rel_name="focal"
+
 # 22.04
 #ubuntu_rel_name="jammy"
 

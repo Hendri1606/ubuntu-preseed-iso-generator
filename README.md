@@ -2,6 +2,8 @@
 
 Generate an ISO image for automated Ubuntu 20.04/Focal or 22.04/Jammy desktop installations. This script uses the traditional preseed method.
 
+Works from WSL.
+
 ### Behavior
 
 Check out the usage information below for arguments. The basic idea is to take an unmodified Ubuntu ISO image, extract it, add some kernel command line parameters and a preseed file, then repack the data into a new ISO. Creating the preseed file itself is outside the scope of this tool.
@@ -51,34 +53,11 @@ Available options:
 
 ### Example
 
-```
-user@testbox:~$ bash ubuntu-preseed-iso-generator.sh -p example.seed -d ubuntu-preseed-example.iso
-[2021-03-13 10:05:10] Starting up...
-[2021-03-13 10:05:10] Created temporary working directory /tmp/tmp.rrehvj78Bk
-[2021-03-13 10:05:10] Checking for required utilities...
-[2021-03-13 10:05:10] All required utilities are installed.
-[2020-12-23 14:06:07] Downloading current daily ISO image for Ubuntu 20.04 Focal Fossa...
-[2020-12-23 14:08:01] Downloaded and saved to /home/user/ubuntu-original-2021-03-13.iso
-[2020-12-23 14:08:01] Downloading SHA256SUMS & SHA256SUMS.gpg files...
-[2020-12-23 14:08:02] Downloading and saving Ubuntu signing key...
-[2020-12-23 14:08:02] Downloaded and saved to /home/user/843938DF228D22F7B3742BC0D94AA3F0EFE21092.keyring
-[2020-12-23 14:08:02] Verifying /home/user/ubuntu-original-2021-03-13.iso integrity and authenticity...
-[2020-12-23 14:08:09] Verification succeeded.
-[2020-12-23 14:08:09] Extracting ISO image...
-[2021-03-13 10:05:23] Extracted to /tmp/tmp.rrehvj78Bk
-[2021-03-13 10:05:23] Adding preseed parameters to kernel command line...
-[2021-03-13 10:05:23] Added parameters to UEFI and BIOS kernel command lines.
-[2021-03-13 10:05:23] Adding preseed configuration file...
-[2021-03-13 10:05:23] Added preseed file
-[2021-03-13 10:05:23] Updating /tmp/tmp.rrehvj78Bk/md5sum.txt with hashes of modified files...
-[2021-03-13 10:05:23] Updated hashes.
-[2021-03-13 10:05:23] Repackaging extracted files into an ISO image...
-[2021-03-13 10:05:35] Repackaged into /home/user/ubuntu-preseed-example.iso
-[2021-03-13 10:05:35] Completed.
-[2021-03-13 10:05:35] Deleted temporary working directory /tmp/tmp.rrehvj78Bk
+```shell
+ bash ubuntu-preseed-iso-generator.sh -p example.seed -d ubuntu-desk-20-auto.iso
 ```
 
-Now you can boot your target machine using ```ubuntu-preseed-example.iso``` and it will automatically install Ubuntu using the configuration from ```example.seed```.
+Now you can boot your target machine using ```ubuntu-desk-20-auto.iso``` and it will automatically install Ubuntu using the configuration from ```example.seed```.
 
 ### Thanks
 
