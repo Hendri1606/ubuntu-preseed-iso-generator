@@ -57,6 +57,24 @@ Available options:
 
 Now you can boot your target machine using ```ubuntu-desk-20-auto.iso``` and it will automatically install Ubuntu using the configuration from ```example.seed```.
 
+#### copying
+
+To copy your ISO to a USB key:
+
+```shell
+# find the device
+lsblk
+lsusb
+sudo dmesg
+# unmount the usb dev with ONE of these two commands:
+sudo umount /media/user/data
+sudo umount /dev/sdb
+# copy iso to USB
+sudo dd if=~/ubuntu-auto.iso of=/dev/sdb bs=1M status=progress && sync
+```
+
+Remove the USB key and place into new machine to install on.
+
 ### Thanks
 
 This script is based on [this](https://betterdev.blog/minimal-safe-bash-script-template/) minimal safe bash template, and steps found in [this](https://askubuntu.com/questions/806820/how-do-i-create-a-completely-unattended-install-of-ubuntu-desktop-16-04-1-lts) Ask Ubuntu answer.
