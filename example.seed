@@ -38,8 +38,8 @@ d-i apt-setup/restricted boolean true
 d-i apt-setup/universe boolean true
 
 # Users
-d-i passwd/user-fullname string User
-d-i passwd/username string user
+d-i passwd/user-fullname string defaultuser
+d-i passwd/username string defaultuser
 # Password: ubuntu
 # Generate with "openssl passwd -6"
 d-i passwd/user-password-crypted password $6$eRzcYyR3Xw2elP6l$l7JXHXxbXRgD8KCx4xFt4q7aJFpsUfjjMHbfYZAlJ56GLSspojJ6ODxlauuauL72jYbwhEhGwUmzgImIVCFle0
