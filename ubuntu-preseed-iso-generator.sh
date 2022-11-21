@@ -99,10 +99,10 @@ function parse_params() {
 
 
 # 20.04
-ubuntu_rel_name="focal"
+#ubuntu_rel_name="focal"
 
 # 22.04
-#ubuntu_rel_name="jammy"
+ubuntu_rel_name="jammy"
 
 ubuntu_gpg_key_id="843938DF228D22F7B3742BC0D94AA3F0EFE21092"
 ubuntu_iso_name="${ubuntu_rel_name}-desktop-amd64.iso"
@@ -113,6 +113,8 @@ parse_params "$@"
 
 tmpdir=$(mktemp -d)
 
+
+log "building ${ubuntu_rel_name}"
 
 if [[ ! "$tmpdir" || ! -d "$tmpdir" ]]; then
         die "Could not create temporary working directory."

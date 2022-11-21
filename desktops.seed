@@ -38,11 +38,10 @@ d-i apt-setup/restricted boolean true
 d-i apt-setup/universe boolean true
 
 # Users
-d-i passwd/user-fullname string DefaultUser
+d-i passwd/user-fullname string defaultuser
 d-i passwd/username string defaultuser
-# Password: ubuntu
-# Generate with "openssl passwd -6"
-d-i passwd/user-password-crypted password $6$eRzcYyR3Xw2elP6l$l7JXHXxbXRgD8KCx4xFt4q7aJFpsUfjjMHbfYZAlJ56GLSspojJ6ODxlauuauL72jYbwhEhGwUmzgImIVCFle0
+# Password: T3mp.P4ss
+d-i passwd/user-password-crypted password $6$rounds=1280000$.MvQs/lOvlZ.cAdq$I5b.OpFzFWWwAG/bgQ.zZOy1g1.F/cHvf/mNNI8e5.KMKI4sSVNGyMEFVZ1Mmlq8lULkeHTeyJsqaUjcpuAOb/
 d-i passwd/user-default-groups string adm audio cdrom dip lpadmin sudo plugdev sambashare video
 d-i passwd/root-login boolean false
 d-i user-setup/allow-password-weak boolean false
