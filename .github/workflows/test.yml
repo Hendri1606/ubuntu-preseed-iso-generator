@@ -26,7 +26,8 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: ./*
+        run: sudo apt-get install -y p7zip-full mkisofs genisoimage xorriso isolinux syslinux-common
+        run: ./
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
