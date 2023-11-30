@@ -1,3 +1,4 @@
+[![CI](https://github.com/Hendri1606/ubuntu-preseed-iso-generator/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/Hendri1606/ubuntu-preseed-iso-generator/actions/workflows/test.yml)
 # Ubuntu Preseed ISO Generator
 
 Generate an ISO image for automated Ubuntu 20.04/Focal or 22.04/Jammy desktop installations. This script uses the traditional preseed method.
